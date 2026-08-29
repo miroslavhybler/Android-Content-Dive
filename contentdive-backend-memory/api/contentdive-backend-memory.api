@@ -1,0 +1,9 @@
+public final class com/contentdive/backend/memory/MemoryContentDiveFactoryKt {
+	public static final fun createMemoryContentDive (Lcom/contentdive/api/ContentDiveConfiguration;)Lcom/contentdive/api/ContentDive;
+	public static synthetic fun createMemoryContentDive$default (Lcom/contentdive/api/ContentDiveConfiguration;ILjava/lang/Object;)Lcom/contentdive/api/ContentDive;
+}
+
+public final class com/contentdive/backend/memory/MemorySearchBackendKt {
+	public static final fun createMemorySearchBackend ()Lcom/contentdive/spi/SearchBackend;
+}
+

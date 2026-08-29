@@ -1,0 +1,33 @@
+public abstract interface annotation class com/contentdive/ksp/annotations/ContentDiveDocument : java/lang/annotation/Annotation {
+	public abstract fun type ()Ljava/lang/String;
+}
+
+public final class com/contentdive/ksp/annotations/ContentDiveGeneratedIds {
+	public static final field INSTANCE Lcom/contentdive/ksp/annotations/ContentDiveGeneratedIds;
+	public final fun fragmentId-SaPwrMU (Ljava/lang/String;)Ljava/lang/String;
+	public final fun itemId-LzHo65s (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+}
+
+public abstract interface annotation class com/contentdive/ksp/annotations/ContentDiveId : java/lang/annotation/Annotation {
+}
+
+public abstract interface annotation class com/contentdive/ksp/annotations/ContentDiveSubtitle : java/lang/annotation/Annotation {
+}
+
+public abstract interface annotation class com/contentdive/ksp/annotations/ContentDiveText : java/lang/annotation/Annotation {
+	public abstract fun field ()Ljava/lang/String;
+	public abstract fun weight ()Lcom/contentdive/ksp/annotations/ContentDiveTextWeight;
+}
+
+public final class com/contentdive/ksp/annotations/ContentDiveTextWeight : java/lang/Enum {
+	public static final field BODY Lcom/contentdive/ksp/annotations/ContentDiveTextWeight;
+	public static final field HEADING Lcom/contentdive/ksp/annotations/ContentDiveTextWeight;
+	public static final field TITLE Lcom/contentdive/ksp/annotations/ContentDiveTextWeight;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/contentdive/ksp/annotations/ContentDiveTextWeight;
+	public static fun values ()[Lcom/contentdive/ksp/annotations/ContentDiveTextWeight;
+}
+
+public abstract interface annotation class com/contentdive/ksp/annotations/ContentDiveTitle : java/lang/annotation/Annotation {
+}
+

@@ -1,0 +1,6 @@
+public final class com/contentdive/engine/ContentDiveEngine {
+	public static final field INSTANCE Lcom/contentdive/engine/ContentDiveEngine;
+	public final fun create (Lcom/contentdive/spi/SearchBackend;Lcom/contentdive/api/ContentDiveConfiguration;)Lcom/contentdive/api/ContentDive;
+	public static synthetic fun create$default (Lcom/contentdive/engine/ContentDiveEngine;Lcom/contentdive/spi/SearchBackend;Lcom/contentdive/api/ContentDiveConfiguration;ILjava/lang/Object;)Lcom/contentdive/api/ContentDive;
+}
+

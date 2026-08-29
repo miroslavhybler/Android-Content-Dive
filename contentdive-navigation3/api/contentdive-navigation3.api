@@ -1,0 +1,33 @@
+# Android binary API (javap -public -s -constants)
+
+Compiled from "NavigationContracts.kt"
+public interface com.contentdive.navigation3.DestinationResolver<K extends androidx.navigation3.runtime.NavKey> {
+  public abstract com.contentdive.navigation3.NavigationPlan<K> resolve(com.contentdive.api.DestinationRef, com.contentdive.api.AnchorRef);
+    descriptor: (Lcom/contentdive/api/DestinationRef;Lcom/contentdive/api/AnchorRef;)Lcom/contentdive/navigation3/NavigationPlan;
+}
+Compiled from "NavigationContracts.kt"
+public final class com.contentdive.navigation3.NavigationPlan<K extends androidx.navigation3.runtime.NavKey> {
+  public com.contentdive.navigation3.NavigationPlan(java.util.List<? extends K>);
+    descriptor: (Ljava/util/List;)V
+
+  public final java.util.List<K> getKeys();
+    descriptor: ()Ljava/util/List;
+
+  public final java.util.List<K> component1();
+    descriptor: ()Ljava/util/List;
+
+  public final com.contentdive.navigation3.NavigationPlan<K> copy(java.util.List<? extends K>);
+    descriptor: (Ljava/util/List;)Lcom/contentdive/navigation3/NavigationPlan;
+
+  public static com.contentdive.navigation3.NavigationPlan copy$default(com.contentdive.navigation3.NavigationPlan, java.util.List, int, java.lang.Object);
+    descriptor: (Lcom/contentdive/navigation3/NavigationPlan;Ljava/util/List;ILjava/lang/Object;)Lcom/contentdive/navigation3/NavigationPlan;
+
+  public java.lang.String toString();
+    descriptor: ()Ljava/lang/String;
+
+  public int hashCode();
+    descriptor: ()I
+
+  public boolean equals(java.lang.Object);
+    descriptor: (Ljava/lang/Object;)Z
+}

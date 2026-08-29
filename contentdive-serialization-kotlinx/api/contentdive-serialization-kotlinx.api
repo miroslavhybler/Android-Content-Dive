@@ -1,0 +1,32 @@
+public abstract interface class com/contentdive/serialization/kotlinx/AnchorCodec {
+	public abstract fun decode (Lcom/contentdive/api/AnchorRef;)Ljava/lang/Object;
+	public abstract fun encode (Ljava/lang/Object;)Lcom/contentdive/api/AnchorRef;
+	public abstract fun getType ()Ljava/lang/String;
+	public abstract fun getVersion ()I
+}
+
+public abstract interface class com/contentdive/serialization/kotlinx/DestinationCodec {
+	public abstract fun decode (Lcom/contentdive/api/DestinationRef;)Ljava/lang/Object;
+	public abstract fun encode (Ljava/lang/Object;)Lcom/contentdive/api/DestinationRef;
+	public abstract fun getType ()Ljava/lang/String;
+	public abstract fun getVersion ()I
+}
+
+public final class com/contentdive/serialization/kotlinx/KotlinxAnchorCodec : com/contentdive/serialization/kotlinx/AnchorCodec {
+	public fun <init> (Ljava/lang/String;ILkotlinx/serialization/KSerializer;Lkotlinx/serialization/json/Json;)V
+	public synthetic fun <init> (Ljava/lang/String;ILkotlinx/serialization/KSerializer;Lkotlinx/serialization/json/Json;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun decode (Lcom/contentdive/api/AnchorRef;)Ljava/lang/Object;
+	public fun encode (Ljava/lang/Object;)Lcom/contentdive/api/AnchorRef;
+	public fun getType ()Ljava/lang/String;
+	public fun getVersion ()I
+}
+
+public final class com/contentdive/serialization/kotlinx/KotlinxDestinationCodec : com/contentdive/serialization/kotlinx/DestinationCodec {
+	public fun <init> (Ljava/lang/String;ILkotlinx/serialization/KSerializer;Lkotlinx/serialization/json/Json;)V
+	public synthetic fun <init> (Ljava/lang/String;ILkotlinx/serialization/KSerializer;Lkotlinx/serialization/json/Json;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun decode (Lcom/contentdive/api/DestinationRef;)Ljava/lang/Object;
+	public fun encode (Ljava/lang/Object;)Lcom/contentdive/api/DestinationRef;
+	public fun getType ()Ljava/lang/String;
+	public fun getVersion ()I
+}
+

@@ -1,0 +1,15 @@
+# Android binary API (javap -public -s -constants)
+
+Compiled from "AppSearchBackendFactory.kt"
+public final class com.contentdive.backend.appsearch.AppSearchBackendFactoryKt {
+  public static final com.contentdive.spi.SearchBackend createAppSearchBackend(android.content.Context, java.lang.String);
+    descriptor: (Landroid/content/Context;Ljava/lang/String;)Lcom/contentdive/spi/SearchBackend;
+}
+Compiled from "AppSearchContentDiveFactory.kt"
+public final class com.contentdive.backend.appsearch.AppSearchContentDiveFactoryKt {
+  public static final com.contentdive.api.ContentDive createAppSearchContentDive(android.content.Context, java.lang.String, com.contentdive.api.ContentDiveConfiguration);
+    descriptor: (Landroid/content/Context;Ljava/lang/String;Lcom/contentdive/api/ContentDiveConfiguration;)Lcom/contentdive/api/ContentDive;
+
+  public static com.contentdive.api.ContentDive createAppSearchContentDive$default(android.content.Context, java.lang.String, com.contentdive.api.ContentDiveConfiguration, int, java.lang.Object);
+    descriptor: (Landroid/content/Context;Ljava/lang/String;Lcom/contentdive/api/ContentDiveConfiguration;ILjava/lang/Object;)Lcom/contentdive/api/ContentDive;
+}

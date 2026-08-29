@@ -1,0 +1,279 @@
+public final class com/contentdive/api/AnchorRef {
+	public fun <init> (Ljava/lang/String;ILjava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()I
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;ILjava/lang/String;)Lcom/contentdive/api/AnchorRef;
+	public static synthetic fun copy$default (Lcom/contentdive/api/AnchorRef;Ljava/lang/String;ILjava/lang/String;ILjava/lang/Object;)Lcom/contentdive/api/AnchorRef;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPayload ()Ljava/lang/String;
+	public final fun getType ()Ljava/lang/String;
+	public final fun getVersion ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class com/contentdive/api/ContentDive : com/contentdive/api/ContentIndexer, com/contentdive/api/ContentSearcher, java/lang/AutoCloseable {
+	public abstract fun close ()V
+}
+
+public final class com/contentdive/api/ContentDiveConfiguration {
+	public static final field Companion Lcom/contentdive/api/ContentDiveConfiguration$Companion;
+	public static final field DEFAULT_MAXIMUM_RESULT_LIMIT I
+	public static final field DEFAULT_RESULT_LIMIT I
+	public fun <init> ()V
+	public fun <init> (IIZ)V
+	public synthetic fun <init> (IIZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()I
+	public final fun component2 ()I
+	public final fun component3 ()Z
+	public final fun copy (IIZ)Lcom/contentdive/api/ContentDiveConfiguration;
+	public static synthetic fun copy$default (Lcom/contentdive/api/ContentDiveConfiguration;IIZILjava/lang/Object;)Lcom/contentdive/api/ContentDiveConfiguration;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDefaultResultLimit ()I
+	public final fun getFuzzySearchEnabled ()Z
+	public final fun getMaximumResultLimit ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/contentdive/api/ContentDiveConfiguration$Companion {
+}
+
+public final class com/contentdive/api/ContentDiveException : java/lang/RuntimeException {
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+}
+
+public final class com/contentdive/api/ContentDiveLifecycleException : java/lang/IllegalStateException {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public abstract interface class com/contentdive/api/ContentIndexer {
+	public abstract fun clear-xO_1pEM (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun remove-iJx3ppg (Ljava/lang/String;Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun removeAll-Whbc8A4 (Ljava/lang/String;Ljava/util/Collection;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun replace (Lcom/contentdive/api/SearchProjection;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun replaceAll (Ljava/util/Collection;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class com/contentdive/api/ContentSearcher {
+	public abstract fun search (Lcom/contentdive/api/SearchQuery;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/contentdive/api/DestinationRef {
+	public fun <init> (Ljava/lang/String;ILjava/lang/String;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()I
+	public final fun component3 ()Ljava/lang/String;
+	public final fun copy (Ljava/lang/String;ILjava/lang/String;)Lcom/contentdive/api/DestinationRef;
+	public static synthetic fun copy$default (Lcom/contentdive/api/DestinationRef;Ljava/lang/String;ILjava/lang/String;ILjava/lang/Object;)Lcom/contentdive/api/DestinationRef;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getPayload ()Ljava/lang/String;
+	public final fun getType ()Ljava/lang/String;
+	public final fun getVersion ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/contentdive/api/SearchBatchFailure {
+	public fun <init> (Lcom/contentdive/api/SearchBatchItemId;Ljava/lang/String;)V
+	public final fun component1 ()Lcom/contentdive/api/SearchBatchItemId;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Lcom/contentdive/api/SearchBatchItemId;Ljava/lang/String;)Lcom/contentdive/api/SearchBatchFailure;
+	public static synthetic fun copy$default (Lcom/contentdive/api/SearchBatchFailure;Lcom/contentdive/api/SearchBatchItemId;Ljava/lang/String;ILjava/lang/Object;)Lcom/contentdive/api/SearchBatchFailure;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getItem ()Lcom/contentdive/api/SearchBatchItemId;
+	public final fun getMessage ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/contentdive/api/SearchBatchItemId {
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-2pYqTcM ()Ljava/lang/String;
+	public final fun component2--cABubE ()Ljava/lang/String;
+	public final fun copy-M_hIHJw (Ljava/lang/String;Ljava/lang/String;)Lcom/contentdive/api/SearchBatchItemId;
+	public static synthetic fun copy-M_hIHJw$default (Lcom/contentdive/api/SearchBatchItemId;Ljava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/contentdive/api/SearchBatchItemId;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getItemId--cABubE ()Ljava/lang/String;
+	public final fun getScope-2pYqTcM ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/contentdive/api/SearchBatchResult {
+	public fun <init> (Ljava/util/List;Ljava/util/List;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;Ljava/util/List;)Lcom/contentdive/api/SearchBatchResult;
+	public static synthetic fun copy$default (Lcom/contentdive/api/SearchBatchResult;Ljava/util/List;Ljava/util/List;ILjava/lang/Object;)Lcom/contentdive/api/SearchBatchResult;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFailedItems ()Ljava/util/List;
+	public final fun getSuccessfulItems ()Ljava/util/List;
+	public fun hashCode ()I
+	public final fun isSuccess ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/contentdive/api/SearchFragment {
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/contentdive/api/SearchFragmentKind;DLcom/contentdive/api/AnchorRef;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/contentdive/api/SearchFragmentKind;DLcom/contentdive/api/AnchorRef;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1-TNZHMwM ()Ljava/lang/String;
+	public final fun component2--cABubE ()Ljava/lang/String;
+	public final fun component3-2pYqTcM ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Lcom/contentdive/api/SearchFragmentKind;
+	public final fun component6 ()D
+	public final fun component7 ()Lcom/contentdive/api/AnchorRef;
+	public final fun copy-JBSBwQ8 (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/contentdive/api/SearchFragmentKind;DLcom/contentdive/api/AnchorRef;)Lcom/contentdive/api/SearchFragment;
+	public static synthetic fun copy-JBSBwQ8$default (Lcom/contentdive/api/SearchFragment;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/contentdive/api/SearchFragmentKind;DLcom/contentdive/api/AnchorRef;ILjava/lang/Object;)Lcom/contentdive/api/SearchFragment;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAnchor ()Lcom/contentdive/api/AnchorRef;
+	public final fun getId-TNZHMwM ()Ljava/lang/String;
+	public final fun getItemId--cABubE ()Ljava/lang/String;
+	public final fun getKind ()Lcom/contentdive/api/SearchFragmentKind;
+	public final fun getScope-2pYqTcM ()Ljava/lang/String;
+	public final fun getText ()Ljava/lang/String;
+	public final fun getWeight ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/contentdive/api/SearchFragmentId {
+	public static final synthetic fun box-impl (Ljava/lang/String;)Lcom/contentdive/api/SearchFragmentId;
+	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/lang/String;)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/lang/String;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/lang/String;
+}
+
+public final class com/contentdive/api/SearchFragmentKind : java/lang/Enum {
+	public static final field BODY Lcom/contentdive/api/SearchFragmentKind;
+	public static final field HEADING Lcom/contentdive/api/SearchFragmentKind;
+	public static final field TITLE Lcom/contentdive/api/SearchFragmentKind;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/contentdive/api/SearchFragmentKind;
+	public static fun values ()[Lcom/contentdive/api/SearchFragmentKind;
+}
+
+public final class com/contentdive/api/SearchItem {
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/contentdive/api/DestinationRef;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/contentdive/api/DestinationRef;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1--cABubE ()Ljava/lang/String;
+	public final fun component2-2pYqTcM ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Lcom/contentdive/api/DestinationRef;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun copy-6QKcx_4 (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/contentdive/api/DestinationRef;Ljava/lang/String;)Lcom/contentdive/api/SearchItem;
+	public static synthetic fun copy-6QKcx_4$default (Lcom/contentdive/api/SearchItem;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/contentdive/api/DestinationRef;Ljava/lang/String;ILjava/lang/Object;)Lcom/contentdive/api/SearchItem;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDestination ()Lcom/contentdive/api/DestinationRef;
+	public final fun getId--cABubE ()Ljava/lang/String;
+	public final fun getScope-2pYqTcM ()Ljava/lang/String;
+	public final fun getSubtitle ()Ljava/lang/String;
+	public final fun getTitle ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/contentdive/api/SearchItemId {
+	public static final synthetic fun box-impl (Ljava/lang/String;)Lcom/contentdive/api/SearchItemId;
+	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/lang/String;)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/lang/String;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/lang/String;
+}
+
+public final class com/contentdive/api/SearchMatch {
+	public fun <init> (Lcom/contentdive/api/SearchItem;Lcom/contentdive/api/SearchFragment;Ljava/util/List;DLjava/lang/String;)V
+	public final fun component1 ()Lcom/contentdive/api/SearchItem;
+	public final fun component2 ()Lcom/contentdive/api/SearchFragment;
+	public final fun component3 ()Ljava/util/List;
+	public final fun component4 ()D
+	public final fun component5 ()Ljava/lang/String;
+	public final fun copy (Lcom/contentdive/api/SearchItem;Lcom/contentdive/api/SearchFragment;Ljava/util/List;DLjava/lang/String;)Lcom/contentdive/api/SearchMatch;
+	public static synthetic fun copy$default (Lcom/contentdive/api/SearchMatch;Lcom/contentdive/api/SearchItem;Lcom/contentdive/api/SearchFragment;Ljava/util/List;DLjava/lang/String;ILjava/lang/Object;)Lcom/contentdive/api/SearchMatch;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAnchor ()Lcom/contentdive/api/AnchorRef;
+	public final fun getBestFragment ()Lcom/contentdive/api/SearchFragment;
+	public final fun getDestination ()Lcom/contentdive/api/DestinationRef;
+	public final fun getItem ()Lcom/contentdive/api/SearchItem;
+	public final fun getMatchedFragments ()Ljava/util/List;
+	public final fun getScore ()D
+	public final fun getSnippet ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/contentdive/api/SearchProjection {
+	public fun <init> (Lcom/contentdive/api/SearchItem;Ljava/util/List;)V
+	public final fun component1 ()Lcom/contentdive/api/SearchItem;
+	public final fun component2 ()Ljava/util/List;
+	public final fun copy (Lcom/contentdive/api/SearchItem;Ljava/util/List;)Lcom/contentdive/api/SearchProjection;
+	public static synthetic fun copy$default (Lcom/contentdive/api/SearchProjection;Lcom/contentdive/api/SearchItem;Ljava/util/List;ILjava/lang/Object;)Lcom/contentdive/api/SearchProjection;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getFragments ()Ljava/util/List;
+	public final fun getItem ()Lcom/contentdive/api/SearchItem;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class com/contentdive/api/SearchProjector {
+	public abstract fun project (Ljava/lang/Object;)Lcom/contentdive/api/SearchProjection;
+}
+
+public final class com/contentdive/api/SearchQuery {
+	public fun <init> (Ljava/lang/String;Ljava/util/Set;Ljava/lang/Integer;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/Set;Ljava/lang/Integer;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/Set;
+	public final fun component3 ()Ljava/lang/Integer;
+	public final fun copy (Ljava/lang/String;Ljava/util/Set;Ljava/lang/Integer;)Lcom/contentdive/api/SearchQuery;
+	public static synthetic fun copy$default (Lcom/contentdive/api/SearchQuery;Ljava/lang/String;Ljava/util/Set;Ljava/lang/Integer;ILjava/lang/Object;)Lcom/contentdive/api/SearchQuery;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getLimit ()Ljava/lang/Integer;
+	public final fun getScopes ()Ljava/util/Set;
+	public final fun getText ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/contentdive/api/SearchResult {
+	public fun <init> (Ljava/util/List;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun copy (Ljava/util/List;)Lcom/contentdive/api/SearchResult;
+	public static synthetic fun copy$default (Lcom/contentdive/api/SearchResult;Ljava/util/List;ILjava/lang/Object;)Lcom/contentdive/api/SearchResult;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getMatches ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/contentdive/api/SearchScope {
+	public static final synthetic fun box-impl (Ljava/lang/String;)Lcom/contentdive/api/SearchScope;
+	public static fun constructor-impl (Ljava/lang/String;)Ljava/lang/String;
+	public fun equals (Ljava/lang/Object;)Z
+	public static fun equals-impl (Ljava/lang/String;Ljava/lang/Object;)Z
+	public static final fun equals-impl0 (Ljava/lang/String;Ljava/lang/String;)Z
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public static fun hashCode-impl (Ljava/lang/String;)I
+	public fun toString ()Ljava/lang/String;
+	public static fun toString-impl (Ljava/lang/String;)Ljava/lang/String;
+	public final synthetic fun unbox-impl ()Ljava/lang/String;
+}
+

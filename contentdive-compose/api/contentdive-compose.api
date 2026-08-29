@@ -1,0 +1,10 @@
+# Android binary API (javap -public -s -constants)
+
+Compiled from "AnnotatedStringSearchFragment.kt"
+public final class com.contentdive.compose.AnnotatedStringSearchFragmentKt {
+  public static final com.contentdive.api.SearchFragment toSearchFragment-STtsRhw(androidx.compose.ui.text.AnnotatedString, java.lang.String, java.lang.String, java.lang.String, com.contentdive.api.SearchFragmentKind, double, com.contentdive.api.AnchorRef);
+    descriptor: (Landroidx/compose/ui/text/AnnotatedString;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/contentdive/api/SearchFragmentKind;DLcom/contentdive/api/AnchorRef;)Lcom/contentdive/api/SearchFragment;
+
+  public static com.contentdive.api.SearchFragment toSearchFragment-STtsRhw$default(androidx.compose.ui.text.AnnotatedString, java.lang.String, java.lang.String, java.lang.String, com.contentdive.api.SearchFragmentKind, double, com.contentdive.api.AnchorRef, int, java.lang.Object);
+    descriptor: (Landroidx/compose/ui/text/AnnotatedString;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lcom/contentdive/api/SearchFragmentKind;DLcom/contentdive/api/AnchorRef;ILjava/lang/Object;)Lcom/contentdive/api/SearchFragment;
+}

@@ -1,0 +1,199 @@
+public final class com/contentdive/spi/BackendBatchFailure {
+	public fun <init> (Lcom/contentdive/api/SearchBatchItemId;Ljava/lang/String;)V
+	public final fun component1 ()Lcom/contentdive/api/SearchBatchItemId;
+	public final fun component2 ()Ljava/lang/String;
+	public final fun copy (Lcom/contentdive/api/SearchBatchItemId;Ljava/lang/String;)Lcom/contentdive/spi/BackendBatchFailure;
+	public static synthetic fun copy$default (Lcom/contentdive/spi/BackendBatchFailure;Lcom/contentdive/api/SearchBatchItemId;Ljava/lang/String;ILjava/lang/Object;)Lcom/contentdive/spi/BackendBatchFailure;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getItem ()Lcom/contentdive/api/SearchBatchItemId;
+	public final fun getMessage ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/contentdive/spi/BackendBatchWriteResult {
+	public fun <init> (Ljava/util/List;Ljava/util/List;II)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()Ljava/util/List;
+	public final fun component3 ()I
+	public final fun component4 ()I
+	public final fun copy (Ljava/util/List;Ljava/util/List;II)Lcom/contentdive/spi/BackendBatchWriteResult;
+	public static synthetic fun copy$default (Lcom/contentdive/spi/BackendBatchWriteResult;Ljava/util/List;Ljava/util/List;IIILjava/lang/Object;)Lcom/contentdive/spi/BackendBatchWriteResult;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAffectedFragments ()I
+	public final fun getAffectedItems ()I
+	public final fun getFailedItems ()Ljava/util/List;
+	public final fun getSuccessfulItems ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/contentdive/spi/BackendCandidate {
+	public fun <init> (Lcom/contentdive/api/SearchItem;Lcom/contentdive/api/SearchFragment;Lcom/contentdive/spi/PreparedTextChunk;)V
+	public final fun component1 ()Lcom/contentdive/api/SearchItem;
+	public final fun component2 ()Lcom/contentdive/api/SearchFragment;
+	public final fun component3 ()Lcom/contentdive/spi/PreparedTextChunk;
+	public final fun copy (Lcom/contentdive/api/SearchItem;Lcom/contentdive/api/SearchFragment;Lcom/contentdive/spi/PreparedTextChunk;)Lcom/contentdive/spi/BackendCandidate;
+	public static synthetic fun copy$default (Lcom/contentdive/spi/BackendCandidate;Lcom/contentdive/api/SearchItem;Lcom/contentdive/api/SearchFragment;Lcom/contentdive/spi/PreparedTextChunk;ILjava/lang/Object;)Lcom/contentdive/spi/BackendCandidate;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getChunk ()Lcom/contentdive/spi/PreparedTextChunk;
+	public final fun getItem ()Lcom/contentdive/api/SearchItem;
+	public final fun getSourceFragment ()Lcom/contentdive/api/SearchFragment;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/contentdive/spi/BackendCandidateRequest {
+	public fun <init> (Ljava/util/List;Ljava/util/Set;ZI)V
+	public synthetic fun <init> (Ljava/util/List;Ljava/util/Set;ZIILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/util/List;
+	public final fun component2 ()Ljava/util/Set;
+	public final fun component3 ()Z
+	public final fun component4 ()I
+	public final fun copy (Ljava/util/List;Ljava/util/Set;ZI)Lcom/contentdive/spi/BackendCandidateRequest;
+	public static synthetic fun copy$default (Lcom/contentdive/spi/BackendCandidateRequest;Ljava/util/List;Ljava/util/Set;ZIILjava/lang/Object;)Lcom/contentdive/spi/BackendCandidateRequest;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getIncludePrefixes ()Z
+	public final fun getLimit ()I
+	public final fun getScopes ()Ljava/util/Set;
+	public final fun getTokens ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/contentdive/spi/BackendCapabilities {
+	public fun <init> ()V
+	public fun <init> (ZZ)V
+	public synthetic fun <init> (ZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Z
+	public final fun component2 ()Z
+	public final fun copy (ZZ)Lcom/contentdive/spi/BackendCapabilities;
+	public static synthetic fun copy$default (Lcom/contentdive/spi/BackendCapabilities;ZZILjava/lang/Object;)Lcom/contentdive/spi/BackendCapabilities;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getSupportsFuzzyCandidates ()Z
+	public final fun getSupportsPrefixCandidates ()Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/contentdive/spi/BackendTermCandidate {
+	public fun <init> (Ljava/lang/String;ILjava/lang/Integer;)V
+	public synthetic fun <init> (Ljava/lang/String;ILjava/lang/Integer;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()I
+	public final fun component3 ()Ljava/lang/Integer;
+	public final fun copy (Ljava/lang/String;ILjava/lang/Integer;)Lcom/contentdive/spi/BackendTermCandidate;
+	public static synthetic fun copy$default (Lcom/contentdive/spi/BackendTermCandidate;Ljava/lang/String;ILjava/lang/Integer;ILjava/lang/Object;)Lcom/contentdive/spi/BackendTermCandidate;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getDocumentFrequency ()Ljava/lang/Integer;
+	public final fun getIndexedTerm ()Ljava/lang/String;
+	public final fun getTrigramOverlap ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/contentdive/spi/BackendWriteResult {
+	public fun <init> (II)V
+	public final fun component1 ()I
+	public final fun component2 ()I
+	public final fun copy (II)Lcom/contentdive/spi/BackendWriteResult;
+	public static synthetic fun copy$default (Lcom/contentdive/spi/BackendWriteResult;IIILjava/lang/Object;)Lcom/contentdive/spi/BackendWriteResult;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAffectedFragments ()I
+	public final fun getAffectedItems ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface annotation class com/contentdive/spi/ExperimentalContentDiveSpi : java/lang/annotation/Annotation {
+}
+
+public final class com/contentdive/spi/FuzzyTermRequest {
+	public fun <init> (Ljava/lang/String;Ljava/util/Set;I)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Ljava/util/Set;
+	public final fun component3 ()I
+	public final fun copy (Ljava/lang/String;Ljava/util/Set;I)Lcom/contentdive/spi/FuzzyTermRequest;
+	public static synthetic fun copy$default (Lcom/contentdive/spi/FuzzyTermRequest;Ljava/lang/String;Ljava/util/Set;IILjava/lang/Object;)Lcom/contentdive/spi/FuzzyTermRequest;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getCandidateLimit ()I
+	public final fun getNormalizedQueryToken ()Ljava/lang/String;
+	public final fun getTrigrams ()Ljava/util/Set;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/contentdive/spi/PreparedProjection {
+	public fun <init> (Lcom/contentdive/api/SearchItem;Ljava/util/List;Ljava/util/List;)V
+	public final fun component1 ()Lcom/contentdive/api/SearchItem;
+	public final fun component2 ()Ljava/util/List;
+	public final fun component3 ()Ljava/util/List;
+	public final fun copy (Lcom/contentdive/api/SearchItem;Ljava/util/List;Ljava/util/List;)Lcom/contentdive/spi/PreparedProjection;
+	public static synthetic fun copy$default (Lcom/contentdive/spi/PreparedProjection;Lcom/contentdive/api/SearchItem;Ljava/util/List;Ljava/util/List;ILjava/lang/Object;)Lcom/contentdive/spi/PreparedProjection;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getChunks ()Ljava/util/List;
+	public final fun getFragments ()Ljava/util/List;
+	public final fun getItem ()Lcom/contentdive/api/SearchItem;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/contentdive/spi/PreparedTextChunk {
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;IIILcom/contentdive/api/AnchorRef;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2-TNZHMwM ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/util/List;
+	public final fun component6 ()I
+	public final fun component7 ()I
+	public final fun component8 ()I
+	public final fun component9 ()Lcom/contentdive/api/AnchorRef;
+	public final fun copy-HgjrBK8 (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;IIILcom/contentdive/api/AnchorRef;)Lcom/contentdive/spi/PreparedTextChunk;
+	public static synthetic fun copy-HgjrBK8$default (Lcom/contentdive/spi/PreparedTextChunk;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;IIILcom/contentdive/api/AnchorRef;ILjava/lang/Object;)Lcom/contentdive/spi/PreparedTextChunk;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAnchor ()Lcom/contentdive/api/AnchorRef;
+	public final fun getId ()Ljava/lang/String;
+	public final fun getNormalizedText ()Ljava/lang/String;
+	public final fun getOrdinal ()I
+	public final fun getOriginalText ()Ljava/lang/String;
+	public final fun getSourceEnd ()I
+	public final fun getSourceFragmentId-TNZHMwM ()Ljava/lang/String;
+	public final fun getSourceStart ()I
+	public final fun getTokens ()Ljava/util/List;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/contentdive/spi/PreparedToken {
+	public fun <init> (Ljava/lang/String;II)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()I
+	public final fun component3 ()I
+	public final fun copy (Ljava/lang/String;II)Lcom/contentdive/spi/PreparedToken;
+	public static synthetic fun copy$default (Lcom/contentdive/spi/PreparedToken;Ljava/lang/String;IIILjava/lang/Object;)Lcom/contentdive/spi/PreparedToken;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getEnd ()I
+	public final fun getStart ()I
+	public final fun getValue ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class com/contentdive/spi/SearchBackend : java/lang/AutoCloseable {
+	public abstract fun candidates (Lcom/contentdive/spi/BackendCandidateRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun clear-xO_1pEM (Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun close ()V
+	public abstract fun fuzzyTerms (Lcom/contentdive/spi/FuzzyTermRequest;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getCapabilities ()Lcom/contentdive/spi/BackendCapabilities;
+	public fun remove-iJx3ppg (Ljava/lang/String;Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun removeAll-Whbc8A4 (Ljava/lang/String;Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun replace (Lcom/contentdive/spi/PreparedProjection;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun replaceAll (Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/contentdive/spi/SearchBackend$DefaultImpls {
+	public static fun remove-iJx3ppg (Lcom/contentdive/spi/SearchBackend;Ljava/lang/String;Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static fun replace (Lcom/contentdive/spi/SearchBackend;Lcom/contentdive/spi/PreparedProjection;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
