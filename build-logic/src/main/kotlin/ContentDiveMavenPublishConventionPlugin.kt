@@ -1,6 +1,7 @@
 import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.component.AdhocComponentWithVariants
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
@@ -15,9 +16,22 @@ class ContentDiveMavenPublishConventionPlugin : Plugin<Project> {
             }
             extensions.configure(PublishingExtension::class.java) {
                 publications.create("maven", MavenPublication::class.java) {
+                    groupId = project.group.toString()
                     from(components.getByName("java"))
                     artifactId = project.name
+                    version = project.version.toString()
                     configurePom(project)
+                }
+            }
+        }
+
+        pluginManager.withPlugin("java-test-fixtures") {
+            components.named("java", AdhocComponentWithVariants::class.java) {
+                withVariantsFromConfiguration(configurations.getByName("testFixturesApiElements")) {
+                    skip()
+                }
+                withVariantsFromConfiguration(configurations.getByName("testFixturesRuntimeElements")) {
+                    skip()
                 }
             }
         }
@@ -33,8 +47,10 @@ class ContentDiveMavenPublishConventionPlugin : Plugin<Project> {
             afterEvaluate {
                 extensions.configure(PublishingExtension::class.java) {
                     publications.create("release", MavenPublication::class.java) {
+                        groupId = project.group.toString()
                         from(components.getByName("release"))
                         artifactId = project.name
+                        version = project.version.toString()
                         configurePom(project)
                     }
                 }

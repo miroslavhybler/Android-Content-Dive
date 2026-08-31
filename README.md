@@ -40,7 +40,9 @@ destination screen reloads current data from its repository.
 
 ## Module overview
 
-Every library module is published separately with the same version.
+Every library module is published separately with the same group and version. Application code
+normally uses the first eight modules; the engine and SPI artifacts are published so backend
+dependencies remain resolvable, but are not part of the recommended application setup.
 
 | Module | Audience | Purpose |
 | --- | --- | --- |
@@ -60,14 +62,15 @@ only for implementing or testing a backend and may change between alpha releases
 
 ## Installation
 
-Add JitPack after Google's repository and Maven Central:
+Development artifacts are published to Maven Local under
+`com.gihub.miroslavhybler:<artifact>:DEV`. Add Maven Local before remote repositories:
 
 ```kotlin
 dependencyResolutionManagement {
     repositories {
+        mavenLocal()
         google()
         mavenCentral()
-        maven("https://jitpack.io")
     }
 }
 ```
@@ -78,7 +81,7 @@ Memory backend:
 
 ```kotlin
 implementation(
-    "com.github.miroslavhybler.Android-Content-Dive:contentdive-backend-memory:<version>",
+    "com.gihub.miroslavhybler:contentdive-backend-memory:DEV",
 )
 ```
 
@@ -86,16 +89,16 @@ Persistent AppSearch backend:
 
 ```kotlin
 implementation(
-    "com.github.miroslavhybler.Android-Content-Dive:contentdive-backend-appsearch:<version>",
+    "com.gihub.miroslavhybler:contentdive-backend-appsearch:DEV",
 )
 ```
 
 Add only the integrations the application uses:
 
 ```kotlin
-implementation("com.github.miroslavhybler.Android-Content-Dive:contentdive-compose:<version>")
-implementation("com.github.miroslavhybler.Android-Content-Dive:contentdive-navigation3:<version>")
-implementation("com.github.miroslavhybler.Android-Content-Dive:contentdive-serialization-kotlinx:<version>")
+implementation("com.gihub.miroslavhybler:contentdive-compose:DEV")
+implementation("com.gihub.miroslavhybler:contentdive-navigation3:DEV")
+implementation("com.gihub.miroslavhybler:contentdive-serialization-kotlinx:DEV")
 ```
 
 For generated projectors, apply KSP and keep the processor off runtime configurations:
@@ -107,10 +110,10 @@ plugins {
 
 dependencies {
     implementation(
-        "com.github.miroslavhybler.Android-Content-Dive:contentdive-ksp-annotations:<version>",
+        "com.gihub.miroslavhybler:contentdive-ksp-annotations:DEV",
     )
     ksp(
-        "com.github.miroslavhybler.Android-Content-Dive:contentdive-ksp-processor:<version>",
+        "com.gihub.miroslavhybler:contentdive-ksp-processor:DEV",
     )
 }
 ```
@@ -279,7 +282,7 @@ Navigation 3 keys, and verifies persistent AppSearch close/reopen behavior.
 Run the normal repository verification with:
 
 ```shell
-./gradlew clean build apiCheck publishToMavenLocal
+./gradlew clean build apiCheck publishPublicModulesToMavenLocal
 ```
 
 Generate aggregated public API documentation from KDoc with:

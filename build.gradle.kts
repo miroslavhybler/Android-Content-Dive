@@ -19,11 +19,11 @@ plugins {
     alias(libs.plugins.dokka)
 }
 
-val sharedVersion = providers.environmentVariable("VERSION")
-    .orElse(providers.gradleProperty("VERSION_NAME"))
+val publishedGroupProvider = providers.gradleProperty("GROUP")
+val sharedVersion = providers.gradleProperty("VERSION_NAME")
 
 allprojects {
-    group = providers.gradleProperty("GROUP").get()
+    group = publishedGroupProvider.get()
     version = sharedVersion.get()
 }
 
@@ -31,10 +31,8 @@ apiValidation {
     ignoredProjects += "app-example"
 }
 
-val documentedModules = listOf(
+val consumerPublishedModules = listOf(
     "contentdive-api",
-    "contentdive-spi",
-    "contentdive-engine",
     "contentdive-backend-memory",
     "contentdive-backend-appsearch",
     "contentdive-compose",
@@ -43,6 +41,19 @@ val documentedModules = listOf(
     "contentdive-ksp-annotations",
     "contentdive-ksp-processor",
 )
+val transitivePublishedModules = listOf(
+    "contentdive-spi",
+    "contentdive-engine",
+)
+val publishedModules = consumerPublishedModules + transitivePublishedModules
+val documentedModules = publishedModules
+
+val publishPublicModulesToMavenLocal by tasks.registering {
+    group = "publishing"
+    description =
+        "Publishes all consumer-facing ContentDive modules and their required transitive artifacts to Maven Local."
+    dependsOn(publishedModules.map { module -> ":$module:publishToMavenLocal" })
+}
 
 dependencies {
     documentedModules.forEach { module ->
@@ -115,6 +126,12 @@ abstract class CheckReadmeTask : DefaultTask() {
     @get:Input
     abstract val documentedDependencies: ListProperty<String>
 
+    @get:Input
+    abstract val publicationGroup: Property<String>
+
+    @get:Input
+    abstract val publicationVersion: Property<String>
+
     @TaskAction
     fun verify() {
         val readme = readmeFile.get().asFile.readText()
@@ -147,7 +164,10 @@ abstract class CheckReadmeTask : DefaultTask() {
             }
         }
 
-        val coordinatePattern = Regex("Android-Content-Dive:([A-Za-z0-9._-]+):<version>")
+        val coordinatePattern = Regex(
+            "${Regex.escape(publicationGroup.get())}:([A-Za-z0-9._-]+):" +
+                Regex.escape(publicationVersion.get()),
+        )
         val documentedArtifacts = coordinatePattern.findAll(readme)
             .map { match -> match.groupValues[1] }
             .toSet()
@@ -198,6 +218,8 @@ val checkReadme by tasks.registering(CheckReadmeTask::class) {
     settingsFile.set(layout.projectDirectory.file("settings.gradle.kts"))
     repositoryRoot.set(layout.projectDirectory.asFile.absolutePath)
     publishedModules.set(documentedModules)
+    publicationGroup.set(publishedGroupProvider)
+    publicationVersion.set(sharedVersion)
     documentedDependencies.set(
         listOf(
             "contentdive-backend-memory",
