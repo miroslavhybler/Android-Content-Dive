@@ -41,12 +41,13 @@ destination screen reloads current data from its repository.
 ## Module overview
 
 Every library module is published separately with the same group and version. Application code
-normally uses the first eight modules; the engine and SPI artifacts are published so backend
+normally uses the first nine modules; the engine and SPI artifacts are published so backend
 dependencies remain resolvable, but are not part of the recommended application setup.
 
 | Module | Audience | Purpose |
 | --- | --- | --- |
 | [`contentdive-api`](contentdive-api/) | Applications | Platform-neutral models and indexing/search contracts. Usually received transitively from a backend. |
+| [`contentdive-fuzzy`](contentdive-fuzzy/) | Kotlin/JVM applications | Synchronous standalone matching over candidates already loaded by the caller. |
 | [`contentdive-backend-memory`](contentdive-backend-memory/) | Applications | Complete factory for an isolated temporary in-memory index. |
 | [`contentdive-backend-appsearch`](contentdive-backend-appsearch/) | Android applications | Complete factory for a persistent app-private AppSearch LocalStorage index. |
 | [`contentdive-compose`](contentdive-compose/) | Compose applications | Converts `AnnotatedString` visible text into ordinary `SearchFragment` values. |
@@ -57,7 +58,7 @@ dependencies remain resolvable, but are not part of the recommended application 
 | [`contentdive-engine`](contentdive-engine/) | Backend implementers | Engine implementation and an experimental raw-backend entry point. Normal applications do not depend on it directly. |
 | [`contentdive-spi`](contentdive-spi/) | Backend implementers | Experimental prepared-chunk, candidate, mutation, and backend contracts guarded by `@ExperimentalContentDiveSpi`. |
 
-The first eight modules expose normal consumer-facing or build-time APIs. Direct engine/SPI usage is
+The first nine modules expose normal consumer-facing or build-time APIs. Direct engine/SPI usage is
 only for implementing or testing a backend and may change between alpha releases.
 
 ## Installation
@@ -76,6 +77,12 @@ dependencyResolutionManagement {
 ```
 
 Choose exactly one backend for normal application setup.
+
+For standalone matching over data the caller has already loaded, no backend or core API is needed:
+
+```kotlin
+implementation("com.gihub.miroslavhybler:contentdive-fuzzy:DEV")
+```
 
 Memory backend:
 
@@ -253,12 +260,44 @@ must reload current authoritative data rather than rendering the index as its so
 - No automatic navigation registration or destination serialization.
 - No whole-scope transactional replacement or non-destructive AppSearch schema migration.
 
+## Indexed ContentDive or standalone FuzzyMatcher
+
+Use ContentDive when application content needs an indexed search layer:
+
+```text
+ContentDive
+    Persistent/indexed application-content search with snippets, destinations, and anchors
+```
+
+Use `FuzzyMatcher` when a repository or database query has already loaded a moderate candidate set:
+
+```text
+FuzzyMatcher
+    Synchronous in-memory matching over candidates already owned by the caller
+```
+
+```kotlin
+val events: List<Event> = eventRepository.loadCandidates()
+val query = FuzzyMatcher.compile("parkng")
+val matches = query.rank(
+    candidates = events,
+    textSelector = Event::description,
+    limit = 20,
+)
+check(matches.first().id == "E42")
+```
+
+`FuzzyMatcher` scans only the supplied values. It does not provide persistence, navigation,
+snippets, destinations, automatic database querying, paging, or `AnnotatedString` overloads. Pass
+`annotatedString.text` explicitly. For multiple fields, concatenate searchable text or evaluate
+each field separately and retain its highest match.
+
 ## Architecture and behavior notes
 
 ContentDive normalizes application fragments, splits long text into overlapping internal chunks,
-and lets the selected backend narrow candidate chunks. The engine still owns final exact, prefix,
-and Damerau–Levenshtein fuzzy acceptance, ranking, grouping, deterministic ordering, and local
-original-text snippets.
+and lets the selected backend narrow candidate chunks. `contentdive-fuzzy` owns final exact,
+prefix, and Damerau–Levenshtein typo acceptance and similarity. The engine adds ContentDive-specific
+field ranking, grouping, deterministic item ordering, and local original-text snippets.
 
 `replace` and `replaceAll` treat each `SearchProjection` as a complete item snapshot. Replacing one
 scoped item atomically removes every previous fragment, internal chunk, posting, and fuzzy term for

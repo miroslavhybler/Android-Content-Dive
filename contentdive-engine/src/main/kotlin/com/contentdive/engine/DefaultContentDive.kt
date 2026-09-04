@@ -15,6 +15,9 @@ import com.contentdive.api.SearchProjection
 import com.contentdive.api.SearchQuery
 import com.contentdive.api.SearchResult
 import com.contentdive.api.SearchScope
+import com.contentdive.fuzzy.CompiledFuzzyQuery
+import com.contentdive.fuzzy.FuzzyMatchQuality
+import com.contentdive.fuzzy.FuzzyMatcher
 import com.contentdive.spi.BackendCandidate
 import com.contentdive.spi.BackendCandidateRequest
 import com.contentdive.spi.BackendBatchWriteResult
@@ -184,6 +187,7 @@ internal class DefaultContentDive(
         if (normalizedQuery.tokens.isEmpty()) return SearchResult(emptyList())
 
         val queryTokens = normalizedQuery.tokens.map(NormalizedToken::value).distinct()
+        val compiledQueries = queryTokens.associateWith(FuzzyMatcher::compile)
         val capabilities = backendCapabilities()
         val lexicalCandidates = backendOperation("retrieve search candidates") {
             backend.candidates(
@@ -195,7 +199,7 @@ internal class DefaultContentDive(
                 ),
             )
         }
-        val fuzzyTermsByQuery = resolveFuzzyTerms(queryTokens)
+        val fuzzyTermsByQuery = resolveFuzzyTerms(compiledQueries)
         val fuzzyIndexedTerms = fuzzyTermsByQuery.values
             .flatten()
             .map(FuzzyTermMatch::indexedTerm)
@@ -222,7 +226,12 @@ internal class DefaultContentDive(
             )
         }
         return SearchResult(
-            matches = rankAndGroup(candidates, queryTokens, fuzzyTermsByQuery).take(resultLimit),
+            matches = rankAndGroup(
+                candidates,
+                queryTokens,
+                compiledQueries,
+                fuzzyTermsByQuery,
+            ).take(resultLimit),
         )
     }
 
@@ -289,25 +298,38 @@ internal class DefaultContentDive(
     }
 
     private suspend fun resolveFuzzyTerms(
-        queryTokens: List<String>,
+        compiledQueries: Map<String, CompiledFuzzyQuery>,
     ): Map<String, List<FuzzyTermMatch>> {
         if (!configuration.fuzzySearchEnabled || !backendCapabilities().supportsFuzzyCandidates) {
             return emptyMap()
         }
         return buildMap {
-            queryTokens.forEach { queryToken ->
-                if (!FuzzyMatcher.isEnabled(queryToken)) return@forEach
+            compiledQueries.forEach { (queryToken, compiledQuery) ->
+                if (!supportsFuzzyCandidateLookup(queryToken)) return@forEach
                 val terms = backendOperation("retrieve fuzzy terms") {
                     backend.fuzzyTerms(
                         FuzzyTermRequest(
                             normalizedQueryToken = queryToken,
-                            trigrams = FuzzyMatcher.characterTrigrams(queryToken),
-                            candidateLimit = FuzzyMatcher.CANDIDATE_LIMIT,
+                            trigrams = characterTrigrams(queryToken),
+                            candidateLimit = FUZZY_CANDIDATE_LIMIT,
                         ),
                     )
                 }
-                FuzzyMatcher.filter(queryToken, terms)
-                    .take(FuzzyMatcher.CANDIDATE_LIMIT)
+                terms.mapNotNull { candidate ->
+                    val match = compiledQuery.match(candidate.indexedTerm)
+                        ?.takeIf { it.quality == FuzzyMatchQuality.FUZZY }
+                        ?: return@mapNotNull null
+                    FuzzyTermMatch(
+                        indexedTerm = candidate.indexedTerm,
+                        score = match.score,
+                        trigramOverlap = candidate.trigramOverlap,
+                    )
+                }.sortedWith(
+                    compareByDescending<FuzzyTermMatch>(FuzzyTermMatch::score)
+                        .thenByDescending(FuzzyTermMatch::trigramOverlap)
+                        .thenBy(FuzzyTermMatch::indexedTerm),
+                )
+                    .take(FUZZY_CANDIDATE_LIMIT)
                     .takeIf { it.isNotEmpty() }
                     ?.let { put(queryToken, it) }
             }
@@ -355,10 +377,11 @@ internal class DefaultContentDive(
     private fun rankAndGroup(
         candidates: List<BackendCandidate>,
         queryTokens: List<String>,
+        compiledQueries: Map<String, CompiledFuzzyQuery>,
         fuzzyTermsByQuery: Map<String, List<FuzzyTermMatch>>,
     ): List<SearchMatch> {
         val ranked = candidates.mapNotNull { candidate ->
-            rank(candidate, queryTokens, fuzzyTermsByQuery)
+            rank(candidate, queryTokens, compiledQueries, fuzzyTermsByQuery)
         }
         return ranked
             .groupBy { ItemKey(it.candidate.item) }
@@ -373,19 +396,27 @@ internal class DefaultContentDive(
     private fun rank(
         candidate: BackendCandidate,
         queryTokens: List<String>,
+        compiledQueries: Map<String, CompiledFuzzyQuery>,
         fuzzyTermsByQuery: Map<String, List<FuzzyTermMatch>>,
     ): RankedChunk? {
         val chunkTokens = candidate.chunk.tokens
         val tokenValues = chunkTokens.map(PreparedToken::value)
         val queryMatches = queryTokens.mapNotNull { queryToken ->
-            classifyQueryToken(queryToken, tokenValues, fuzzyTermsByQuery[queryToken].orEmpty())
+            classifyQueryToken(
+                queryToken,
+                checkNotNull(compiledQueries[queryToken]),
+                tokenValues,
+                fuzzyTermsByQuery[queryToken].orEmpty(),
+            )
         }
         if (queryMatches.isEmpty()) return null
         val matchesByQuery = queryMatches.associateBy(QueryTokenMatch::queryToken)
         val exactTokenCount = queryMatches.count { it.kind == MatchKind.EXACT }
         val prefixTokenCount = queryMatches.count { it.kind == MatchKind.PREFIX }
         val fuzzyTokenCount = queryMatches.count { it.kind == MatchKind.FUZZY }
-        val fuzzyEditDistance = queryMatches.sumOf(QueryTokenMatch::editDistance)
+        val fuzzyScore = queryMatches.asSequence()
+            .filter { it.kind == MatchKind.FUZZY }
+            .sumOf(QueryTokenMatch::matchScore)
         val matchedTokens = matchesByQuery.keys
         val phrase = containsPhrase(tokenValues, queryTokens, matchesByQuery)
         val matchWindow = checkNotNull(minimumMatchWindow(chunkTokens, matchesByQuery))
@@ -393,8 +424,8 @@ internal class DefaultContentDive(
         val score = matchedTokens.size * MATCHED_TOKEN_SCORE +
             exactTokenCount * EXACT_TOKEN_SCORE +
             prefixTokenCount * PREFIX_TOKEN_SCORE +
-            fuzzyTokenCount * FUZZY_TOKEN_SCORE -
-            fuzzyEditDistance * FUZZY_EDIT_DISTANCE_PENALTY +
+            fuzzyTokenCount * FUZZY_TOKEN_SCORE +
+            fuzzyScore * FUZZY_SIMILARITY_SCORE +
             kindScore(fragment.kind) +
             (if (phrase) PHRASE_SCORE else 0.0) +
             proximityScore(matchWindow.tokenCount) +
@@ -406,7 +437,7 @@ internal class DefaultContentDive(
             exactTokenCount = exactTokenCount,
             prefixTokenCount = prefixTokenCount,
             fuzzyTokenCount = fuzzyTokenCount,
-            fuzzyEditDistance = fuzzyEditDistance,
+            fuzzyScore = fuzzyScore,
             phrase = phrase,
             matchWindow = matchWindow,
             fragmentScore = score,
@@ -437,25 +468,49 @@ internal class DefaultContentDive(
 
     private fun classifyQueryToken(
         queryToken: String,
+        compiledQuery: CompiledFuzzyQuery,
         indexedTokens: List<String>,
         fuzzyTerms: List<FuzzyTermMatch>,
     ): QueryTokenMatch? {
-        if (indexedTokens.any { it == queryToken }) {
-            return QueryTokenMatch(queryToken, MatchKind.EXACT, setOf(queryToken), editDistance = 0)
-        }
-        if (indexedTokens.any { it.startsWith(queryToken) }) {
-            return QueryTokenMatch(queryToken, MatchKind.PREFIX, emptySet(), editDistance = 0)
+        val directMatch = indexedTokens.asSequence()
+            .mapNotNull { indexedToken ->
+                compiledQuery.match(indexedToken)?.takeIf {
+                    it.quality != FuzzyMatchQuality.FUZZY
+                }
+            }
+            .minByOrNull { match ->
+                when (match.quality) {
+                    FuzzyMatchQuality.EXACT -> 0
+                    FuzzyMatchQuality.PREFIX -> 1
+                    FuzzyMatchQuality.FUZZY -> 2
+                }
+            }
+        if (directMatch != null) {
+            return QueryTokenMatch(
+                queryToken = queryToken,
+                kind = when (directMatch.quality) {
+                    FuzzyMatchQuality.EXACT -> MatchKind.EXACT
+                    FuzzyMatchQuality.PREFIX -> MatchKind.PREFIX
+                    FuzzyMatchQuality.FUZZY -> error("Fuzzy matches require backend verification")
+                },
+                indexedTerms = if (directMatch.quality == FuzzyMatchQuality.EXACT) {
+                    setOf(queryToken)
+                } else {
+                    emptySet()
+                },
+                matchScore = directMatch.score,
+            )
         }
         val presentFuzzyTerms = fuzzyTerms.filter { it.indexedTerm in indexedTokens }
-        val bestDistance = presentFuzzyTerms.minOfOrNull(FuzzyTermMatch::editDistance) ?: return null
+        val bestScore = presentFuzzyTerms.maxOfOrNull(FuzzyTermMatch::score) ?: return null
         return QueryTokenMatch(
             queryToken = queryToken,
             kind = MatchKind.FUZZY,
             indexedTerms = presentFuzzyTerms.asSequence()
-                .filter { it.editDistance == bestDistance }
+                .filter { it.score == bestScore }
                 .map(FuzzyTermMatch::indexedTerm)
                 .toCollection(linkedSetOf()),
-            editDistance = bestDistance,
+            matchScore = bestScore,
         )
     }
 
@@ -556,7 +611,7 @@ internal class DefaultContentDive(
         val queryToken: String,
         val kind: MatchKind,
         val indexedTerms: Set<String>,
-        val editDistance: Int,
+        val matchScore: Double,
     ) {
         fun matches(indexedToken: String): Boolean = when (kind) {
             MatchKind.EXACT -> indexedToken == queryToken
@@ -564,6 +619,12 @@ internal class DefaultContentDive(
             MatchKind.FUZZY -> indexedToken in indexedTerms
         }
     }
+
+    private data class FuzzyTermMatch(
+        val indexedTerm: String,
+        val score: Double,
+        val trigramOverlap: Int,
+    )
 
     private enum class MatchKind {
         EXACT,
@@ -577,7 +638,7 @@ internal class DefaultContentDive(
         val exactTokenCount: Int,
         val prefixTokenCount: Int,
         val fuzzyTokenCount: Int,
-        val fuzzyEditDistance: Int,
+        val fuzzyScore: Double,
         val phrase: Boolean,
         val matchWindow: MatchWindow,
         val fragmentScore: Double,
@@ -595,7 +656,7 @@ internal class DefaultContentDive(
         const val EXACT_TOKEN_SCORE = 200_000.0
         const val PREFIX_TOKEN_SCORE = 100_000.0
         const val FUZZY_TOKEN_SCORE = 10_000.0
-        const val FUZZY_EDIT_DISTANCE_PENALTY = 1_000.0
+        const val FUZZY_SIMILARITY_SCORE = 1_000.0
         const val TITLE_SCORE = 10_000.0
         const val HEADING_SCORE = 5_000.0
         const val PHRASE_SCORE = 2_000.0
@@ -619,7 +680,7 @@ internal class DefaultContentDive(
                 .thenByDescending(RankedChunk::exactTokenCount)
                 .thenByDescending(RankedChunk::prefixTokenCount)
                 .thenByDescending(RankedChunk::fuzzyTokenCount)
-                .thenBy(RankedChunk::fuzzyEditDistance)
+                .thenByDescending(RankedChunk::fuzzyScore)
                 .thenByDescending { kindRank(it.candidate.sourceFragment.kind) }
                 .thenByDescending(RankedChunk::phrase)
                 .thenBy { it.matchWindow.tokenCount }

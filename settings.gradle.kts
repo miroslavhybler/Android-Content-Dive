@@ -31,6 +31,7 @@ rootProject.name = "ContentDive"
 include(
     ":app-example",
     ":contentdive-api",
+    ":contentdive-fuzzy",
     ":contentdive-spi",
     ":contentdive-engine",
     ":contentdive-backend-memory",

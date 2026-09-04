@@ -1,0 +1,34 @@
+public final class com/contentdive/fuzzy/CompiledFuzzyQuery {
+	public final fun match (Ljava/lang/String;)Lcom/contentdive/fuzzy/FuzzyMatch;
+	public final fun rank (Ljava/lang/Iterable;Lkotlin/jvm/functions/Function1;Ljava/lang/Integer;)Ljava/util/List;
+	public static synthetic fun rank$default (Lcom/contentdive/fuzzy/CompiledFuzzyQuery;Ljava/lang/Iterable;Lkotlin/jvm/functions/Function1;Ljava/lang/Integer;ILjava/lang/Object;)Ljava/util/List;
+}
+
+public final class com/contentdive/fuzzy/FuzzyMatch {
+	public fun <init> (DLcom/contentdive/fuzzy/FuzzyMatchQuality;)V
+	public final fun component1 ()D
+	public final fun component2 ()Lcom/contentdive/fuzzy/FuzzyMatchQuality;
+	public final fun copy (DLcom/contentdive/fuzzy/FuzzyMatchQuality;)Lcom/contentdive/fuzzy/FuzzyMatch;
+	public static synthetic fun copy$default (Lcom/contentdive/fuzzy/FuzzyMatch;DLcom/contentdive/fuzzy/FuzzyMatchQuality;ILjava/lang/Object;)Lcom/contentdive/fuzzy/FuzzyMatch;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getQuality ()Lcom/contentdive/fuzzy/FuzzyMatchQuality;
+	public final fun getScore ()D
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/contentdive/fuzzy/FuzzyMatchQuality : java/lang/Enum {
+	public static final field EXACT Lcom/contentdive/fuzzy/FuzzyMatchQuality;
+	public static final field FUZZY Lcom/contentdive/fuzzy/FuzzyMatchQuality;
+	public static final field PREFIX Lcom/contentdive/fuzzy/FuzzyMatchQuality;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lcom/contentdive/fuzzy/FuzzyMatchQuality;
+	public static fun values ()[Lcom/contentdive/fuzzy/FuzzyMatchQuality;
+}
+
+public final class com/contentdive/fuzzy/FuzzyMatcher {
+	public static final field INSTANCE Lcom/contentdive/fuzzy/FuzzyMatcher;
+	public final fun compile (Ljava/lang/String;)Lcom/contentdive/fuzzy/CompiledFuzzyQuery;
+	public final fun match (Ljava/lang/String;Ljava/lang/String;)Lcom/contentdive/fuzzy/FuzzyMatch;
+}
+

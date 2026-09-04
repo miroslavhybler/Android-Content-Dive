@@ -33,6 +33,7 @@ apiValidation {
 
 val consumerPublishedModules = listOf(
     "contentdive-api",
+    "contentdive-fuzzy",
     "contentdive-backend-memory",
     "contentdive-backend-appsearch",
     "contentdive-compose",
@@ -73,6 +74,7 @@ dokka {
 
 val composeFreeModules = listOf(
     "contentdive-api",
+    "contentdive-fuzzy",
     "contentdive-spi",
     "contentdive-engine",
     "contentdive-backend-memory",
@@ -211,6 +213,33 @@ val checkComposeTypeIsolation by tasks.registering(CheckForbiddenTextTask::class
     forbiddenText.set("androidx.compose")
 }
 
+val fuzzyModuleSurface = files(
+    fileTree("contentdive-fuzzy") {
+        include("src/main/**/*.kt")
+        include("src/main/**/*.java")
+        include("api/*.api")
+        include("build.gradle.kts")
+    },
+)
+
+val forbiddenFuzzyDependencies = mapOf(
+    "ContentDiveApi" to "com.contentdive.api",
+    "Android" to "android.",
+    "AndroidX" to "androidx.",
+    "Coroutines" to "kotlinx.coroutines",
+    "Serialization" to "kotlinx.serialization",
+    "Storage" to "androidx.appsearch",
+)
+
+val fuzzyIsolationChecks = forbiddenFuzzyDependencies.map { (suffix, needle) ->
+    tasks.register<CheckForbiddenTextTask>("checkFuzzyWithout$suffix") {
+        group = "verification"
+        description = "Checks that the standalone fuzzy matcher remains dependency-free."
+        sourceFiles.from(fuzzyModuleSurface)
+        forbiddenText.set(needle)
+    }
+}
+
 val checkReadme by tasks.registering(CheckReadmeTask::class) {
     group = "verification"
     description = "Checks README structure, module/artifact names, examples, and local links."
@@ -224,6 +253,7 @@ val checkReadme by tasks.registering(CheckReadmeTask::class) {
         listOf(
             "contentdive-backend-memory",
             "contentdive-backend-appsearch",
+            "contentdive-fuzzy",
             "contentdive-compose",
             "contentdive-navigation3",
             "contentdive-serialization-kotlinx",
@@ -329,6 +359,7 @@ val integrationTypeChecks = listOf(
 tasks.named("check") {
     dependsOn(checkReadme)
     dependsOn(checkComposeTypeIsolation)
+    dependsOn(fuzzyIsolationChecks)
     dependsOn(standardConsumerBoundaryChecks)
     dependsOn(coreApiBoundaryChecks)
     dependsOn(implementationBoundaryChecks)

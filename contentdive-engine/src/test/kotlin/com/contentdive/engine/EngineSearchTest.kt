@@ -842,7 +842,7 @@ private class TestSearchBackend(
         return frequencies.asSequence()
             .filter { (term) -> term != request.normalizedQueryToken }
             .map { (term, frequency) ->
-                val overlap = FuzzyMatcher.characterTrigrams(term)
+                val overlap = characterTrigrams(term)
                     .intersect(request.trigrams)
                     .size
                 Triple(term, frequency, overlap)

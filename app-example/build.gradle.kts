@@ -46,6 +46,7 @@ android {
 
 dependencies {
     implementation(project(":contentdive-backend-appsearch"))
+    implementation(project(":contentdive-fuzzy"))
     implementation(project(":contentdive-compose"))
     implementation(project(":contentdive-ksp-annotations"))
     implementation(project(":contentdive-serialization-kotlinx"))
@@ -84,19 +85,20 @@ abstract class CheckStandardConsumerClasspathTask : DefaultTask() {
             "contentdive-ksp-processor",
         )
         val leaks = componentNames.get()
-            .filter { component -> forbiddenArtifacts.any(component::contains) }
+            .filter { component -> forbiddenArtifacts.any(predicate = component::contains) }
             .sorted()
 
         check(leaks.isEmpty()) {
             "Standard ContentDive consumer unexpectedly exposes implementation artifacts: " +
-                leaks.joinToString()
+                    leaks.joinToString()
         }
     }
 }
 
 val checkStandardConsumerClasspath by tasks.registering(CheckStandardConsumerClasspathTask::class) {
     group = "verification"
-    description = "Checks that the standard app compile classpath contains no implementation artifacts."
+    description =
+        "Checks that the standard app compile classpath contains no implementation artifacts."
     componentNames.convention(emptySet())
 }
 

@@ -5,4 +5,5 @@ plugins {
 
 dependencies {
     api(project(":contentdive-spi"))
+    implementation(project(":contentdive-fuzzy"))
 }
